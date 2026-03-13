@@ -9,6 +9,9 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
+import { useProductStore } from "../store/product.js";
+import { useToast } from "@chakra-ui/react";
+import e from "cors";
 
 const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
@@ -17,21 +20,35 @@ const CreatePage = () => {
     price: 0,
   });
 
+  const { createProduct } = useProductStore();
+
   const handleAddProduct = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
+    const { success, message } = await createProduct(newProduct);
+    if (success) {
+      toast({
+        title: "Success",
+        description: message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
       });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
+    } else {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
+    setNewProduct({
+      name: "",
+      image: "",
+      price: 0,
+    });
   };
+
+  const toast = useToast();
   return (
     <Container maxW={"container.sm"}>
       <VStack spacing={8}>
