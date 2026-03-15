@@ -1,8 +1,5 @@
 import React from "react";
-import { Container } from "@chakra-ui/react";
-import { VStack } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
-import { SimpleGrid } from "@chakra-ui/react";
+import { Container, VStack, Text, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/product";
 import { useEffect } from "react";
@@ -35,23 +32,25 @@ const HomePage = () => {
           ))}
         </SimpleGrid>
 
-        <Text
-          fontSize={"xl"}
-          fontWeight={"bold"}
-          textAlign={"center"}
-          color={"gray.500"}
-        >
-          No products found 😠{" "}
-          <Link to="/create">
-            <Text
-              as={"span"}
-              color={"blue.500"}
-              _hover={{ textDecoration: "underline" }}
-            >
-              Create a procuct
-            </Text>
-          </Link>
-        </Text>
+        {products.length === 0 && (
+          <Text
+            fontSize={"xl"}
+            fontWeight={"bold"}
+            textAlign={"center"}
+            color={"gray.500"}
+          >
+            No products found 😠{" "}
+            <Link to="/create">
+              <Text
+                as={"span"}
+                color={"blue.500"}
+                _hover={{ textDecoration: "underline" }}
+              >
+                Create a procuct
+              </Text>
+            </Link>
+          </Text>
+        )}
       </VStack>
     </Container>
   );
